@@ -10,7 +10,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = ['id', 'student', 'plan', 'start_date', 'end_date', 'status', 'student_name', 'plan_name']
     
     def get_student_name(self, obj):
-        return f"{obj.student.name} {obj.student.last_name}"
+        return f"{obj.student.first_name} {obj.student.last_name}"
 
     def get_plan_name(self, obj):
         return obj.plan.name
