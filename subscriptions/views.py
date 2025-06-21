@@ -35,9 +35,9 @@ class DashboardStatusView(APIView):
 
         data = {
             'totalClientes': total_clientes,
-            'mensalidadesAtivas': subscription_stats.get('ativas', 0),
-            'mensalidadesPausadas': subscription_stats.get('pausadas', 0),
-            'mensalidadesExpiradas': subscription_stats.get('vencidas', 0)
+            'mensalidadesAtivas': subscription_stats.get('active', 0),
+            'mensalidadesPausadas': subscription_stats.get('paused', 0),
+            'mensalidadesExpiradas': subscription_stats.get('expired', 0)
         }
 
         return Response(data, status=status.HTTP_200_OK)
