@@ -11,7 +11,7 @@ class Subscription(models.Model):
         ('expired', 'Vencida')
     ]
 
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='subscriptions')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='subscriptions', unique=True)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name='subscriptions')
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(blank=True, null=True)
