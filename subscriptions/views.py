@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from .models import Student
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Subscription
@@ -38,6 +38,22 @@ class DashboardStatusView(APIView):
             'mensalidadesAtivas': subscription_stats.get('active', 0),
             'mensalidadesPausadas': subscription_stats.get('paused', 0),
             'mensalidadesExpiradas': subscription_stats.get('expired', 0)
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
+    
+class FinancialSummaryView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, format=None):
+        total_subscriptions_data = Subscription.objects.filter(status='active').aggregate(
+            total_subscriptions = Sum('plan__price')
+        )
+
+        total_subscriptions = total_subscriptions_data['total_subscriptions'] or 0.00
+        
+        data = {
+            'total_mensalidades_ativas': total_subscriptions
         }
 
         return Response(data, status=status.HTTP_200_OK)
